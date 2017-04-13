@@ -116,3 +116,55 @@ var testMergeSortArray = [5, 4, 3, 2, 1, 4, 5, 1]
 let mergeSortArray = mergeSort(arrays: &testMergeSortArray)
 print(decrementalArray)
 
+public func heapSort<T: Comparable>(arrays: inout [T]) {
+    
+    let n = arrays.count - 1
+    let halfLength = (n)/2
+    var sortedArray = [T]()
+    for index in (0...halfLength).reversed() {
+        heapify(arrays: &arrays, i: index)
+    }
+    
+    for index in (0...n).reversed() {
+        swap(arrays: &arrays, i: 0, j: index)
+        sortedArray.append(arrays[index])
+        arrays.remove(at: index)
+        heapify(arrays: &arrays, i: 0)
+    }
+    
+    arrays = sortedArray.reversed()
+}
+
+private func heapify<T: Comparable>(arrays: inout [T], i: Int) {
+    let n = arrays.count - 1
+    let left = (i + 1) * 2 - 1
+    let right = (i + 1) * 2
+    var max = i
+//    print("n at \(n) parrent at \(i) left child at \(left) right child at \(right)")
+    
+    if left <= n && arrays[max] < arrays[left] {
+        max = left
+    }
+    if right <= n && arrays[max] < arrays[right] {
+        max = right
+    }
+    
+    if max != i {
+        swap(arrays: &arrays, i: max, j: i)
+        heapify(arrays: &arrays, i: max)
+    }
+}
+
+private func swap<T: Comparable>(arrays: inout [T], i: Int, j: Int) {
+    let temp = arrays[i]
+    arrays[i] = arrays[j]
+    arrays[j] = temp
+}
+
+var testHeapSortArray = [5, 4, 3, 2, 1, 4, 5, 1]
+let heapSortArray = heapSort(arrays: &testHeapSortArray)
+print(testHeapSortArray)
+
+
+
+
